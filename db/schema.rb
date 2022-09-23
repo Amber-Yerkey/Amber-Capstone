@@ -40,19 +40,25 @@ ActiveRecord::Schema.define(version: 2022_09_21_213538) do
   end
 
   create_table "menus", force: :cascade do |t|
-    t.integer "dish_id"
-    t.integer "ingredient_id"
+    t.bigint "dish_id", null: false
+    t.bigint "ingredient_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["dish_id"], name: "index_menus_on_dish_id"
+    t.index ["ingredient_id"], name: "index_menus_on_ingredient_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.integer "location_id"
     t.string "username"
     t.string "password_digest"
     t.string "email"
+    t.bigint "location_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_id"], name: "index_users_on_location_id"
   end
 
+  add_foreign_key "menus", "dishes"
+  add_foreign_key "menus", "ingredients"
+  add_foreign_key "users", "locations"
 end
